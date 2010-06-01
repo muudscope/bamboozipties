@@ -6,7 +6,32 @@ Blog CRUD
 
 {% block content %}
 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script> 
+    <script>
+        function load_table() {
+            var url = '/blog/list.json';
+            $.getJSON(url, null, function(data) {
+              for( var row in data ) {
+                $("#crud_table_blog tr:last").after('<tr><td>'+row+'</td></tr>');
+              }
+            });
+        }
+
+        $(document).ready( load_table() 
+        );
+    </script>
+
     <h1>BLog CRUD</h1>
+
+    <table border=2 id="crud_table_blog">
+    <tr>
+      <th>Title</th>
+      <th>Name</th>
+      <th>Content</th>
+      <td></td>
+    </tr>
+
+    </table
 
 
 
