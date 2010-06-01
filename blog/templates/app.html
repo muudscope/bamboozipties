@@ -13,13 +13,26 @@ Blog CRUD
             $.getJSON(url, null, function(data) {
               $.each(data, function(n, row) {
                 $("#crud_table_blog tr:last").after(
-                  '<tr><td>'+row.fields.title+'</td><td>'
+                  '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                     +row.fields.name+'</td><td>'
                     +row.fields.content+'</td><td>'
-                    +'<td><a href="/blog/delete/'+row.pk+'.json" onclick="return confirm(\'Delete?\');">Delete</a>'
+                    +'<td><a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                     +'</tr>');
               });
             });
+        }
+
+        function delete_entry(id) {
+          if( confirm("Delete Post?") ) {
+            // They said yes
+
+            var url = '/blog/delete/'+id+'.json';
+            jQuery.post(url, function(data) {
+                $("#post-id"+id).remove();
+            });
+
+          }
+          return 0;
         }
 
         $(document).ready( load_table() 
