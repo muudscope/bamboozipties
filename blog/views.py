@@ -1,5 +1,4 @@
-import json
-
+from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
@@ -12,8 +11,7 @@ def apphtml(request):
 
 def list(request):
     queryset = Post.objects.all()
-    objectlist = [x for x in queryset]
-    output = json.dumps(objectlist)
+    output = serializers.serialize("json", queryset)
     return HttpResponse(output, 'text/plain')
 
 
