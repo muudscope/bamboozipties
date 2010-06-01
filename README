@@ -1,0 +1,12 @@
+Bamboo-zipties is a scaffolding system for Django.
+
+It sets up a UI with basic CRUD operations.
+The client code is all jquery/javascript, and the interaction with the server is through JSON.
+
+There (WILL BE) unit tests against all the JSON methods.
+
+This provides a clean line of encapsulation between the view/client and the business logic.  Anything that can be done by the user happens
+through JSON, and has unit tests.
+
+
+The project is named after a common system of construction scaffolding in SE Asia.  It is remarkably effective for how simple it is.
