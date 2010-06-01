@@ -16,6 +16,7 @@ Blog CRUD
                   '<tr><td>'+row.fields.title+'</td><td>'
                     +row.fields.name+'</td><td>'
                     +row.fields.content+'</td><td>'
+                    +'<td><a href="/blog/delete/'+row.pk+'.json" onclick="return confirm(\'Delete?\');">Delete</a>'
                     +'</tr>');
               });
             });
