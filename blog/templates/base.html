@@ -1,0 +1,325 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width = 320" /> <!-- for iphone --> 
+<title>{% block htmltitle %}BanTech Dashboard{% endblock %}</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <style type="text/css">
+    body {
+      font-family: Verdana, sans-serif;
+    }
+    a {
+      text-decoration: none;
+      color: #44e;
+    }
+    a:link { }
+    a:visited { }
+    a:hover {
+      color: #00f;
+    }
+    table th {
+      text-align: left;
+      font-weight: normal;
+      vertical-align: top;
+    }
+    #wrap {
+            width: 700px;
+            margin: 0em auto;
+            line-height: 1.6;
+            font-family: Helvetica, Arial, sans-serif;
+    }
+    #header {
+            background: #111;
+            color: white;
+    }
+    #header, #content {
+            padding: 10px;
+    }
+    h1 {
+            font-family: Georgia;
+            font-weight: 100;
+            font-style: italic;
+            font-size: 40px;
+            /*
+            margin: 30px;
+            */
+            padding: 25px;
+            background: #cee;
+        -moz-border-radius-topleft: 10px;
+        -moz-border-radius-topright: 10px;
+        -webkit-border-radius-top-left: 10px;
+        -webkit-border-radius-top-right: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .bottom {
+        background: #cee;
+        padding: 10px;
+        margin: 30px 0px 0px 0px;
+        font-size: 14px;
+        list-style-type: none;
+
+        -moz-border-radius-bottomleft: 10px;
+        -moz-border-radius-bottomright: 10px;
+        -webkit-border-radius-bottom-left: 10px;
+        -webkit-border-radius-bottom-right: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .bottom li {
+      display: inline;
+      padding-right: 10px;
+    }
+    
+    .auth {
+            font-size: 30px;
+            color: white;
+            background: #222;
+            padding: 25px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+    }
+    .auth:hover {
+            background: #000;
+    }
+    
+    .odd {
+            background: #f3f3f3;
+    }
+    
+    ol, ul {
+            margin-left: 2em;
+    }
+    
+    dl {
+            width: 500px;
+            float: right;
+    }
+    dt {
+            float: left;
+            width: 100px;
+            text-transform: uppercase;
+            font-weight: bold;
+    }
+    dd {
+            float: right;
+            width: 350px;
+            color: #666;
+            text-align: right;
+    }
+    
+    .image {
+            float: left;
+            margin-right: 20px;
+            width: 100px;
+            text-align: center;
+    }
+    .twitter_user {
+            padding: 20px;
+            border-bottom: 1px solid #f1f1f1;
+    }
+    .clearer {
+            clear: both;
+    }
+    
+    h2 {
+            font-size: 34px;
+            margin-top: 20px;
+            color: #0b73de;
+            margin-bottom: 5px;
+    }
+    p {
+            margin-bottom: 1.5em;
+    }
+
+    .errorlist {
+        color: red;
+    }
+
+
+    .denseform {
+       float:left;
+       border: 1px solid #c7c7c7;
+       padding: 10px;
+    }
+ 
+    .denseform p {
+       margin-bottom: 0;
+    }
+ 
+
+    .choices, .rankings {
+        margin: 10px;
+        padding: 15px;
+        border-width: 2px;
+        border-color: black;
+        border-style: solid;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+
+    .profile {
+        margin: 10px;
+        padding: 10px;
+        background-color: #ccf;
+    }
+
+    .liststatus {
+        background: #ccc;
+    }
+
+    a.clean {
+        text-decoration:none;
+    }
+
+    .profilepts {
+        margin: 10px;
+        color: #f53;
+        font-size: 50px;
+    }
+    .profilename {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .badge {
+        background-image:url('http://bvs.wdfiles.com/local--files/trophies/Trophy.jpg');
+        background-repeat: no-repeat;
+        background-position: center top;
+        width: 80;
+        height: 70;
+        color: white;
+        margin: 5px;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: 0px 0px 4px black;
+        float: left;
+    }
+
+    .status {
+        margin: 0;
+        padding: 10px;
+        border-style: solid;
+        border-width: 0 0 0 10px;
+        -moz-border-radius-topleft: 10px;
+        -moz-border-radius-bottomleft: 10px;
+        -webkit-border-radius-top-left: 10px;
+        -webkit-border-radius-bottom-left: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .status .details {
+        color: #444;
+        font-size: 80%;
+    }
+    .statusG {
+        background-color: #bfb;
+        border-color: #4f4;
+    }
+    .statusY {
+        background-color: #ffb;
+        border-color: #ff4;
+    }
+    .statusR {
+        background-color: #fbb;
+        border-color: #f44;
+    }
+    .statusn {
+        background-color: #ccc;
+        border-color: #bbb;
+    }
+    .statusn * {
+      color: #666;
+    }
+
+    .housename {
+        font-weight: bold;
+    }
+
+    .note {
+    }
+
+
+    .notice {
+        margin: 3px;
+        padding: 5px;
+        border-width: 2px;
+        border-color: red;
+        border-style: solid;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        color: #770000;
+    }
+
+    .kind_notice {
+        background-color: #cee;
+        margin: 3px;
+        padding: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        color: #770000;
+    }
+
+
+    .staticmap {
+        border: 0;
+    }
+
+    .tweet {
+        color: #5555ff;
+        font-family: Courier;
+    }
+
+    .taskqueue {
+        border-width: 2px;
+    }
+
+#skilift {
+  clear: both;
+}
+
+#msg_update_skilift {
+}
+#btn_update_skilift {
+  float: left;
+  margin-bottom: 5px;
+}
+
+.commalist .item {
+  font-weight: bold;
+}
+a.edit {
+  font-size: 70%;
+}
+    </style>
+{% block extrahead %}
+  <script type="text/javascript"> 
+    $(document).ready(function() {
+        // Keyboard optimization: give focus to first form field so user can just start typing
+        if (typeof(document.forms[0])!='undefined' && typeof(document.forms[0].elements[0])!='undefined') {
+            document.forms[0].elements[0].focus();
+        }
+    });
+  </script>
+{% endblock %}
+</head>
+<body id="bodytag">
+
+{% block content %}
+{% endblock %}
+
+<ul class="bottom">
+  <li><a href="/">Home</a></li>
+  {% if user.is_authenticated %}
+    <li><a href="/accounts/logout/">Log out {{user.username}}</a></li>
+  {% endif %}
+</ul>
+{% include "analytics.html" %}
+</body>
+</html>
