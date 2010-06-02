@@ -22,7 +22,7 @@ def delete(request,id):
 
     obj = get_object_or_404(Post,pk=id)
     obj.delete()
-    return HttpResponse('Deleted', 'text/plain')
+    return HttpResponse("{'result':'Deleted'}", 'text/plain')
 
 
 def create(request):

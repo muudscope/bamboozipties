@@ -11,6 +11,7 @@ Blog CRUD
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
 
 <script>
+    // loads the list of all Post objects for display in the list frame.
     function load_table() {
         var url = '/blog/list.json';
         $.getJSON(url, null, function(data) {
@@ -31,33 +32,48 @@ Blog CRUD
         // They said yes
 
         var url = '/blog/delete/'+id+'.json';
-        jQuery.post(url, function(data) {
+        console.log("calling "+url);
+        $.ajax({
+          type: "POST",
+          url: url,
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Error:"+textStatus);
+            console.log(XMLHttpRequest);
+            console.log(errorThrown);
+            $('#debugResults').html(XMLHttpRequest.responseText);
+            alert('Error: '+textStatus);
+          },
+          success: function(data) {
             $("#post-id"+id).remove();
+          }
         });
 
       }
-      return 0;
+      return false;
     }
 
-    $(document).ready( load_table() 
-    );
+    //TODO: Make this run whenever the list frame is displayed, not just on page load.
+    $(document).ready( load_table() );
 
 
-window.dhtmlHistory.create();
+    ///////////////////////////////////
+    // initialize RSH for navigation
+    ///////////////////////////////////
+    window.dhtmlHistory.create();
 
-function intrapage_navigate(newLocation) {
-    jQuery('.uiframe').addClass('hidden');
-    jQuery('#'+newLocation).removeClass('hidden');
-}
+    function intrapage_navigate(newLocation) {
+        window.location.hash = newLocation;
+    }
 
-var yourListener = function(newLocation, historyData) {
-    intrapage_navigate(newLocation);
-}
+    var navigationListener = function(newLocation, historyData) {
+        jQuery('.uiframe').addClass('hidden');
+        jQuery('#'+newLocation).removeClass('hidden');
+    }
 
-window.onload = function() {
-        dhtmlHistory.initialize();
-        dhtmlHistory.addListener(yourListener);
-};
+    window.onload = function() {
+            dhtmlHistory.initialize();
+            dhtmlHistory.addListener(navigationListener);
+    };
 
 </script>
 
