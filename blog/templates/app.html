@@ -35,9 +35,8 @@ Blog CRUD
       return 0;
     }
 
-    function 
-
-    $(document).ready( load_table() );
+    $(document).ready( load_table() 
+    );
 </script>
 
     <h1>Blog Posts</h1>
@@ -55,7 +54,7 @@ Blog CRUD
     <a href="#new_entry_frame" onclick="intrapage_navigate()">New Post</a>
   </div>
 
-  <div id="show_entry_frame" class="uiframe">
+  <div id="show_entry_frame" class="uiframe hidden">
     <p>
       <b>Title:</b>
       <span id="show_post_title"></span>
@@ -72,7 +71,7 @@ Blog CRUD
     <a href="#post_list_frame" onclick="intrapage_navigate()">Back</a>
   </div>
 
-  <div id="new_entry_frame" class="uiframe">
+  <div id="new_entry_frame" class="uiframe hidden">
     <form name="new_post">
         <p>
           <label>Title:</label><br/>
