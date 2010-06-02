@@ -20,7 +20,7 @@ Blog CRUD
               '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                 +row.fields.name+'</td><td>'
                 +row.fields.content+'</td><td>'
-                +'<td><a href="#show_entry_frame" >Show</a> | '
+                +'<td><a href="#show_entry_frame/'+row.pk+'" >Show</a> | '
                 +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                 +'</td></tr>');
           });
@@ -65,14 +65,28 @@ Blog CRUD
         window.location.hash = newLocation;
     }
 
+    var frame_load_methods={};
+
     var navigationListener = function(newLocation, historyData) {
+        var pathdata;
+        var slashIndex = newLocation.indexOf('/');
+        var framename = newLocation;
+        if( slashIndex >= 0 ) {
+          // take substring.
+          pathdata = newLocation.substring(slashIndex);
+          framename = newLocation.substring(0,slashIndex);
+        }
         jQuery('.uiframe').addClass('hidden');
-        jQuery('#'+newLocation).removeClass('hidden');
-    }
+        jQuery('#'+framename).removeClass('hidden');
+
+        //TODO: Build generalized switch statement here
+        console.log("moving to frame:"+framename);
+        console.log("path data is "+pathdata);
+    };
 
     window.onload = function() {
-            dhtmlHistory.initialize();
-            dhtmlHistory.addListener(navigationListener);
+        dhtmlHistory.initialize();
+        dhtmlHistory.addListener(navigationListener);
     };
 
 </script>
@@ -145,7 +159,7 @@ Blog CRUD
           success: function(jsonData) {
             console.log(jsonData);
             alert('New post created');
-            intrapage_navigate('show_entry_frame');
+            intrapage_navigate('show/'+jsonData[0].pk);
           }, 
           dataType: 'json'
         });
