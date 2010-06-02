@@ -54,6 +54,7 @@ Blog CRUD
     window.dhtmlHistory.create();
 
     function intrapage_navigate(newLocation) {
+        // Called from other code. Convenience method.
         window.location.hash = newLocation;
     }
 
@@ -68,17 +69,29 @@ Blog CRUD
           pathdata = newLocation.substring(slashIndex);
           framename = newLocation.substring(0,slashIndex);
         }
+
+        // First hide others
         jQuery('.uiframe').addClass('hidden');
-        jQuery('#frame_'+framename).removeClass('hidden');
+        // Prepare to show, when the loading is done.
+        var show_frame = function(){
+          jQuery('#frame_'+framename).removeClass('hidden');
+        }
 
         console.log("moving to frame:"+framename);
         console.log("path data is "+pathdata);
+
         // Look to see if there's a method registered for this frame.
         // If so, call it.
         if( frame_load_methods[framename] ) {
             console.log("calling frame_load_method for "+framename+" with "+pathdata);
-            frame_load_methods[framename](pathdata);
+            frame_load_methods[framename](pathdata, show_frame);
+        } else {
+            // If there's no frameload method, then we show the frame ourselves.
+            // If there is one, it's responsible for showing the frame when it's done
+            // loading its data.
+            show_frame();
         }
+
     };
 
     window.onload = function() {
@@ -106,7 +119,7 @@ Blog CRUD
     <a href="#new">New Post</a>
   <script>
     // loads the list of all Post objects for display in the list frame.
-    function load_table() {
+    function load_table(post_load) {
         $('#list_tbody').html('');
         var url = '/blog/list.json';
         $.getJSON(url, null, function(data) {
@@ -120,11 +133,12 @@ Blog CRUD
                 +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                 +'</td></tr>');
           });
+          post_load();
         });
     }
 
-    frame_load_methods['list']=function(path) {
-      load_table();
+    frame_load_methods['list']=function(path, post_load) {
+      load_table(post_load);
     };
   </script>
   </div>
@@ -148,7 +162,7 @@ Blog CRUD
     <a id="edit_link" href="#edit/" >Edit Post</a> |
     <a href="#list" >List Posts</a>
     <script>
-       frame_load_methods['show']=function(path) {
+       frame_load_methods['show']=function(path, post_load) {
          id = path.substring(1);
          var url = '/blog/show/'+id+'.json';
          console.log("calling "+url);
@@ -163,6 +177,8 @@ Blog CRUD
              $('#show_post_name').html(obj.fields.name);
              $('#show_post_content').html(obj.fields.content);
              $('#edit_link').attr('href','#edit/' + obj.pk);
+
+             post_load();
            },
            dataType: 'json'
          });
@@ -187,9 +203,9 @@ Blog CRUD
         <p>
           <label>Content:</label><br/>
           <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
+        </p>
 
         <input id="new_post_submit" name="commit" type="submit" value="Create" /> 
-        </p>
     </form>
     <script>
       $('form[name=new_post]').submit(function(){ 
@@ -228,12 +244,12 @@ Blog CRUD
         <p>
           <label>Content:</label><br/>
           <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
+        </p>
 
         <input id="edit_post_submit" name="commit" type="submit" value="Update" /> 
-        </p>
     </form>
     <script>
-       frame_load_methods['edit']=function(path) {
+       frame_load_methods['edit']=function(path, post_load) {
          id = path.substring(1);
          var url = '/blog/show/'+id+'.json';
          console.log("calling "+url);
@@ -248,6 +264,8 @@ Blog CRUD
              $('[name=post.name]').val(obj.fields.name);
              $('[name=post.content]').val(obj.fields.content);
              $('[name=post.id]').val(obj.pk);
+
+             post_load();
            },
            dataType: 'json'
          });
