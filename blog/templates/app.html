@@ -7,6 +7,9 @@ Blog CRUD
 {% block content %}
 
 
+<script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/rsh.js"></script>
+<script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
+
 <script>
     function load_table() {
         var url = '/blog/list.json';
@@ -43,9 +46,25 @@ Blog CRUD
       //TODO: Get the name of the frame we're heading to by looking at the 
       // object that triggered the event, and pulling its href.
       // instead of passing in frame as a function parameter
-      jQuery('.uiframe').addClass('hidden');
-      jQuery('#'+frame).removeClass('hidden');
+      //jQuery('.uiframe').addClass('hidden');
+      //jQuery('#'+frame).removeClass('hidden');
+      console.log('nothing in intrapage_navigate');
     }
+
+
+
+window.dhtmlHistory.create();
+
+var yourListener = function(newLocation, historyData) {
+    jQuery('.uiframe').addClass('hidden');
+    jQuery('#'+newLocation).removeClass('hidden');
+}
+
+window.onload = function() {
+        dhtmlHistory.initialize();
+        dhtmlHistory.addListener(yourListener);
+};
+
 </script>
 
 
