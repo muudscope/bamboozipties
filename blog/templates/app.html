@@ -6,42 +6,44 @@ Blog CRUD
 
 {% block content %}
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script> 
-    <script>
-        function load_table() {
-            var url = '/blog/list.json';
-            $.getJSON(url, null, function(data) {
-              $.each(data, function(n, row) {
-                $("#crud_table_blog tr:last").after(
-                  '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
-                    +row.fields.name+'</td><td>'
-                    +row.fields.content+'</td><td>'
-                    +'<td><a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
-                    +'</tr>');
-              });
-            });
-        }
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script> 
+<script>
+    function load_table() {
+        var url = '/blog/list.json';
+        $.getJSON(url, null, function(data) {
+          $.each(data, function(n, row) {
+            $("#post_list_table tr:last").after(
+              '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
+                +row.fields.name+'</td><td>'
+                +row.fields.content+'</td><td>'
+                +'<td><a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
+                +'</tr>');
+          });
+        });
+    }
 
-        function delete_entry(id) {
-          if( confirm("Delete Post?") ) {
-            // They said yes
+    function delete_entry(id) {
+      if( confirm("Delete Post?") ) {
+        // They said yes
 
-            var url = '/blog/delete/'+id+'.json';
-            jQuery.post(url, function(data) {
-                $("#post-id"+id).remove();
-            });
+        var url = '/blog/delete/'+id+'.json';
+        jQuery.post(url, function(data) {
+            $("#post-id"+id).remove();
+        });
 
-          }
-          return 0;
-        }
+      }
+      return 0;
+    }
 
-        $(document).ready( load_table() 
-        );
-    </script>
+    function 
 
-    <h1>BLog CRUD</h1>
+    $(document).ready( load_table() );
+</script>
 
-    <table border=2 id="crud_table_blog">
+    <h1>Blog Posts</h1>
+
+  <div id="post_list_frame" class="uiframe">
+    <table border=2 id="post_list_table">
     <tr>
       <th>Title</th>
       <th>Name</th>
@@ -49,8 +51,49 @@ Blog CRUD
       <td></td>
     </tr>
 
-    </table
+    </table>
+    <a href="#new_entry_frame" onclick="intrapage_navigate()">New Post</a>
+  </div>
 
+  <div id="show_entry_frame" class="uiframe">
+    <p>
+      <b>Title:</b>
+      <span id="show_post_title"></span>
+    </p>
+    <p>
+      <b>Name:</b>
+      <span id="show_post_name"></span>
+    </p>
+    <p>
+      <b>Content:</b>
+      <span id="show_post_content"></span>
+    </p>
+    <a href="#edit_entry_frame" onclick="intrapage_navigate()">Edit Post</a> |
+    <a href="#post_list_frame" onclick="intrapage_navigate()">Back</a>
+  </div>
+
+  <div id="new_entry_frame" class="uiframe">
+    <form name="new_post">
+        <p>
+          <label>Title:</label><br/>
+          <input id="post_title" name="post.name" size="30" type="text" /> 
+        </p>
+        <p>
+          <label>Name:</label><br/>
+          <span id="show_post_name"></span>
+          <input id="post_name" name="post.name" size="30" type="text" /> 
+        </p>
+        <p>
+          <label>Content:</label><br/>
+          <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
+
+        </p>
+        <input id="post_submit" name="commit" type="submit" value="Create" /> 
+    </form>
+
+    <a href="#edit_entry_frame" onclick="intrapage_navigate()">Edit Post</a> |
+    <a href="#post_list_frame" onclick="intrapage_navigate()">Back</a>
+  </div>
 
 
 {% endblock %}
