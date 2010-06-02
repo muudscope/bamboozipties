@@ -19,7 +19,7 @@ Blog CRUD
               '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                 +row.fields.name+'</td><td>'
                 +row.fields.content+'</td><td>'
-                +'<td><a href="#" onclick="return intrapage_navigate(\'show_entry_frame\');">Show</a> | '
+                +'<td><a href="#show_entry_frame" >Show</a> | '
                 +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                 +'</td></tr>');
           });
@@ -42,22 +42,16 @@ Blog CRUD
     $(document).ready( load_table() 
     );
 
-    function intrapage_navigate(frame) {
-      //TODO: Get the name of the frame we're heading to by looking at the 
-      // object that triggered the event, and pulling its href.
-      // instead of passing in frame as a function parameter
-      //jQuery('.uiframe').addClass('hidden');
-      //jQuery('#'+frame).removeClass('hidden');
-      console.log('nothing in intrapage_navigate');
-    }
-
-
 
 window.dhtmlHistory.create();
 
-var yourListener = function(newLocation, historyData) {
+function intrapage_navigate(newLocation) {
     jQuery('.uiframe').addClass('hidden');
     jQuery('#'+newLocation).removeClass('hidden');
+}
+
+var yourListener = function(newLocation, historyData) {
+    intrapage_navigate(newLocation);
 }
 
 window.onload = function() {
@@ -79,7 +73,7 @@ window.onload = function() {
     </tr>
 
     </table>
-    <a href="#new_entry_frame" onclick="intrapage_navigate('new_entry_frame')">New Post</a>
+    <a href="#new_entry_frame">New Post</a>
   </div>
 
   <div id="show_entry_frame" class="uiframe hidden">
@@ -96,8 +90,8 @@ window.onload = function() {
       <b>Content:</b>
       <span id="show_post_content"></span>
     </p>
-    <a href="#edit_entry_frame" onclick="intrapage_navigate('edit_entry_frame')">Edit Post</a> |
-    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">List Posts</a>
+    <a href="#edit_entry_frame" >Edit Post</a> |
+    <a href="#post_list_frame" >List Posts</a>
   </div>
 
   <div id="new_entry_frame" class="uiframe hidden">
@@ -144,7 +138,7 @@ window.onload = function() {
 
     </script>
 
-    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">List Posts</a>
+    <a href="#post_list_frame" >List Posts</a>
   </div>
 
 
