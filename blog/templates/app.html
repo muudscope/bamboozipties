@@ -16,8 +16,9 @@ Blog CRUD
               '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                 +row.fields.name+'</td><td>'
                 +row.fields.content+'</td><td>'
-                +'<td><a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
-                +'</tr>');
+                +'<td><a href="#" onclick="return intrapage_navigate(\'show_entry_frame\');">Show</a> | '
+                +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
+                +'</td></tr>');
           });
         });
     }
@@ -85,7 +86,7 @@ Blog CRUD
     <form name="new_post" action="create.json" method="POST">
         <p>
           <label>Title:</label><br/>
-          <input id="post_title" name="post.name" size="30" type="text" /> 
+          <input id="post_title" name="post.title" size="30" type="text" /> 
         </p>
         <p>
           <label>Name:</label><br/>
@@ -106,12 +107,16 @@ Blog CRUD
           url: $(this).attr('action'), 
           data: $(this).serialize(), 
           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Error:"+textStatus);
+            console.log(XMLHttpRequest);
             console.log(errorThrown);
+            $('#debugResults').html(XMLHttpRequest.responseText);
             alert('Error posting form: '+textStatus);
           },
           success: function(jsonData) {
-            alert('success on form post');
-            alert(jsonData);
+            console.log(jsonData);
+            alert('New post created');
+            intrapage_navigate('show_entry_frame');
           }, 
           dataType: 'json'
         });
@@ -123,5 +128,8 @@ Blog CRUD
     <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">List Posts</a>
   </div>
 
+
+  <div id="debugResults">
+  </div>
 
 {% endblock %}
