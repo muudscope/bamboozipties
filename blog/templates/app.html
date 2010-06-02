@@ -16,11 +16,11 @@ Blog CRUD
         var url = '/blog/list.json';
         $.getJSON(url, null, function(data) {
           $.each(data, function(n, row) {
-            $("#post_list_table tr:last").after(
+            $("#frame_list tr:last").after(
               '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                 +row.fields.name+'</td><td>'
                 +row.fields.content+'</td><td>'
-                +'<td><a href="#show/'+row.pk+'" >Show</a> | '
+                +'<a href="#show/'+row.pk+'" >Show</a> | '
                 +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                 +'</td></tr>');
           });
@@ -56,9 +56,11 @@ Blog CRUD
     $(document).ready( load_table() );
 
 
-    ///////////////////////////////////
-    // initialize RSH for navigation
-    ///////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    //
+    // initialize RSH (really simple history) for navigation
+    //
+    /////////////////////////////////////////////////////////////////////////////
     window.dhtmlHistory.create();
 
     function intrapage_navigate(newLocation) {
@@ -77,11 +79,12 @@ Blog CRUD
           framename = newLocation.substring(0,slashIndex);
         }
         jQuery('.uiframe').addClass('hidden');
-        jQuery('#'+framename).removeClass('hidden');
+        jQuery('#frame_'+framename).removeClass('hidden');
 
-        //TODO: Build generalized switch statement here
         console.log("moving to frame:"+framename);
         console.log("path data is "+pathdata);
+        // Look to see if there's a method registered for this frame.
+        // If so, call it.
         if( frame_load_methods[framename] ) {
             console.log("calling frame_load_method for "+framename+" with "+pathdata);
             frame_load_methods[framename](pathdata);
@@ -96,7 +99,7 @@ Blog CRUD
 </script>
 
 
-  <div id="post_list_frame" class="uiframe">
+  <div id="frame_list" class="uiframe">
     <h2>All Blog Posts</h2>
     <table border=2 id="post_list_table">
     <tr>
@@ -107,10 +110,10 @@ Blog CRUD
     </tr>
 
     </table>
-    <a href="#new_entry_frame">New Post</a>
+    <a href="#new">New Post</a>
   </div>
 
-  <div id="show" class="uiframe hidden">
+  <div id="frame_show" class="uiframe hidden">
     <h2> Show Post </h2>
     <p>
       <b>Title:</b>
@@ -124,8 +127,8 @@ Blog CRUD
       <b>Content:</b>
       <span id="show_post_content"></span>
     </p>
-    <a href="#edit_entry_frame" >Edit Post</a> |
-    <a href="#post_list_frame" >List Posts</a>
+    <a href="#edit/1" >Edit Post</a> |
+    <a href="#list" >List Posts</a>
     <script>
        frame_load_methods['show']=function(path) {
          id = path.substring(1);
@@ -156,7 +159,7 @@ Blog CRUD
     </script>
   </div>
 
-  <div id="new_entry_frame" class="uiframe hidden">
+  <div id="frame_new" class="uiframe hidden">
     <h2> New Post </h2>
     <form name="new_post" action="create.json" method="POST">
         <p>
@@ -200,7 +203,7 @@ Blog CRUD
 
     </script>
 
-    <a href="#post_list_frame" >List Posts</a>
+    <a href="#list" >List Posts</a>
   </div>
 
 
