@@ -1,5 +1,6 @@
 from django.core import serializers
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
@@ -7,7 +8,7 @@ from blog.models import *
 
 
 def apphtml(request):
-    return render_to_response("app.html")
+    return render_to_response("app.html", {}, context_instance=RequestContext(request))
 
 def list(request):
     queryset = Post.objects.all()

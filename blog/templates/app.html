@@ -101,11 +101,16 @@ Blog CRUD
     </form>
     <script>
       $('form[name=new_post]').submit(function(){ 
-        alert('hoo'); 
-        $.post($(this).attr('action'), $(this).serialize(), function(json) {
-          alert('success on form post');
-          alert(json);
-        }, 'json');
+        $.ajax({
+          type: "POST",
+          url: $(this).attr('action'), 
+          data: $(this).serialize(), 
+          success: function(jsonData) {
+            alert('success on form post');
+            alert(jsonData);
+          }, 
+          dataType: 'json'
+        });
         return false;  // prevents the browser from posting the form itself.
       });
 
