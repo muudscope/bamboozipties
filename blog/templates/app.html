@@ -6,7 +6,8 @@ Blog CRUD
 
 {% block content %}
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script> 
+<script type="text/javascript" src="http://github.com/malsup/form/raw/master/jquery.form.js?v2.43"></script>
+
 <script>
     function load_table() {
         var url = '/blog/list.json';
@@ -77,12 +78,12 @@ Blog CRUD
       <span id="show_post_content"></span>
     </p>
     <a href="#edit_entry_frame" onclick="intrapage_navigate('edit_entry_frame')">Edit Post</a> |
-    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">Back</a>
+    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">List Posts</a>
   </div>
 
   <div id="new_entry_frame" class="uiframe hidden">
     <h2> New Post </h2>
-    <form name="new_post">
+    <form name="new_post" action="/new_post.json" method="POST">
         <p>
           <label>Title:</label><br/>
           <input id="post_title" name="post.name" size="30" type="text" /> 
@@ -96,12 +97,50 @@ Blog CRUD
           <label>Content:</label><br/>
           <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
 
+        <input id="new_post_submit" name="commit" type="submit" value="Create" /> 
         </p>
-        <input id="post_submit" name="commit" type="submit" value="Create" /> 
     </form>
+      <a href="#" onclick="return newpostform();">submit it</a>
+    <script>
+      $('form[name=new_post]').submit(function(){ 
+        alert('hoo'); 
+        $.post($(this).attr('action'), $(this).serialize(), function(json) {
+          alert(json);
+        }, 'json');
+        return false;  // prevents the browser from posting the form itself.
+      });
 
-    <a href="#edit_entry_frame" onclick="intrapage_navigate('edit_entry_frame')">Edit Post</a> |
-    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">Back</a>
+      function newpostform() {
+        alert('ready to submit');
+        //$(function(){
+          //$('form[name=new_post]').submit(function(){
+            //$.post($(this).attr('action'), $(this).serialize(), function(json) {
+              //alert(json);
+            //}, 'json');
+          //});
+        //});
+        return false;
+      }
+      function bad_newpostform() {
+          var options = {
+            async: false,
+            alert_message: "Error submitting form",
+            success: function(message) {
+              alert(message);
+            },
+            error : function(){
+              alert(this.alert_message);
+            }
+          };
+          $('#new_post').ajaxSubmit(options);
+
+          return false;
+      }
+
+
+    </script>
+
+    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">List Posts</a>
   </div>
 
 
