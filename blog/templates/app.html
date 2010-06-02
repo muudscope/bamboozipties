@@ -215,7 +215,7 @@ Blog CRUD
   <div id="frame_edit" class="uiframe hidden">
     <h2> Edit Post </h2>
     <form name="edit_post" action="edit.json" method="POST">
-        <input id="post_id" type="hidden" />
+        <input id="post_id" name="post.id" type="hidden" />
         <p>
           <label>Title:</label><br/>
           <input id="post_title" name="post.title" size="30" type="text" /> 
@@ -228,7 +228,7 @@ Blog CRUD
           <label>Content:</label><br/>
           <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
 
-        <input id="new_post_submit" name="commit" type="submit" value="Create" /> 
+        <input id="edit_post_submit" name="commit" type="submit" value="Update" /> 
         </p>
     </form>
     <script>

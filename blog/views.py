@@ -57,3 +57,19 @@ def create(request):
     response = serializers.serialize("json", [newpost])
     return HttpResponse(response, 'text/plain')
     
+
+def edit(request):
+    if request.method == 'GET':
+        return HttpResponse("{'error':'Side-effect method requires HTTP POST'}", 'text/plain')
+
+    id = request.POST['post.id']
+    obj = get_object_or_404(Post,pk=id)
+    newpost = get_object_or_404(Post,pk=id)
+    newpost.title = request.POST['post.title']
+    newpost.name = request.POST['post.name']
+    newpost.content = request.POST['post.content']
+    newpost.save()
+
+    response = serializers.serialize("json", [newpost])
+    return HttpResponse(response, 'text/plain')
+    
