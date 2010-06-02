@@ -23,3 +23,7 @@ def delete(request,id):
     obj.delete()
     return HttpResponse('Deleted', 'text/plain')
 
+
+def create(request):
+    return HttpResponse('[1]', 'text/plain')
+    

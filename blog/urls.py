@@ -6,5 +6,6 @@ urlpatterns = patterns('blog.views',
 
     (r'^list.json$', 'list'),
     (r'^delete/(?P<id>\d+).json$', 'delete'),
+    (r'^create.json$', 'create'),
 )
 
