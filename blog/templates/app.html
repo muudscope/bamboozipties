@@ -11,22 +11,6 @@ Blog CRUD
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
 
 <script>
-    // loads the list of all Post objects for display in the list frame.
-    function load_table() {
-        var url = '/blog/list.json';
-        $.getJSON(url, null, function(data) {
-          $.each(data, function(n, row) {
-            $("#frame_list tr:last").after(
-              '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
-                +row.fields.name+'</td><td>'
-                +row.fields.content+'</td><td>'
-                +'<a href="#show/'+row.pk+'" >Show</a> | '
-                +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
-                +'</td></tr>');
-          });
-        });
-    }
-
     function delete_entry(id) {
       if( confirm("Delete Post?") ) {
         // They said yes
@@ -51,9 +35,6 @@ Blog CRUD
       }
       return false;
     }
-
-    //TODO: Make this run whenever the list frame is displayed, not just on page load.
-    $(document).ready( load_table() );
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -94,6 +75,7 @@ Blog CRUD
     window.onload = function() {
         dhtmlHistory.initialize();
         dhtmlHistory.addListener(navigationListener);
+        navigationListener(window.location.hash.substring(1), null);
     };
 
 </script>
@@ -108,9 +90,34 @@ Blog CRUD
       <th>Content</th>
       <td></td>
     </tr>
+    <tbody id="list_tbody">
+    </tbody>
 
     </table>
     <a href="#new">New Post</a>
+  <script>
+
+    // loads the list of all Post objects for display in the list frame.
+    function load_table() {
+        $('#list_tbody').html('');
+        var url = '/blog/list.json';
+        $.getJSON(url, null, function(data) {
+          $.each(data, function(n, row) {
+            $("#list_tbody").append(
+              '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
+                +row.fields.name+'</td><td>'
+                +row.fields.content+'</td><td>'
+                +'<a href="#show/'+row.pk+'" >Show</a> | '
+                +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
+                +'</td></tr>');
+          });
+        });
+    }
+
+    frame_load_methods['list']=function(path) {
+      load_table();
+    };
+  </script>
   </div>
 
   <div id="frame_show" class="uiframe hidden">
