@@ -8,6 +8,7 @@ Blog CRUD
 
 <script>
     var DEBUG_MODE = true;
+    var HOMEPAGE_FRAGMENT = "#list"
 </script>
 
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/rsh.js"></script>
@@ -97,7 +98,12 @@ Blog CRUD
     window.onload = function() {
         dhtmlHistory.initialize();
         dhtmlHistory.addListener(navigationListener);
-        navigationListener(window.location.hash.substring(1), null);
+
+        if( window.location.hash ) {
+            navigationListener(window.location.hash.substring(1), null);
+        } else {
+            intrapage_navigate(HOMEPAGE_FRAGMENT);
+        }
     };
 </script>
 
