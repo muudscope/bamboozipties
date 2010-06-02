@@ -20,7 +20,7 @@ Blog CRUD
               '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                 +row.fields.name+'</td><td>'
                 +row.fields.content+'</td><td>'
-                +'<td><a href="#show_entry_frame/'+row.pk+'" >Show</a> | '
+                +'<td><a href="#show/'+row.pk+'" >Show</a> | '
                 +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
                 +'</td></tr>');
           });
@@ -82,6 +82,10 @@ Blog CRUD
         //TODO: Build generalized switch statement here
         console.log("moving to frame:"+framename);
         console.log("path data is "+pathdata);
+        if( frame_load_methods[framename] ) {
+            console.log("calling frame_load_method for "+framename+" with "+pathdata);
+            frame_load_methods[framename](pathdata);
+        }
     };
 
     window.onload = function() {
@@ -106,7 +110,7 @@ Blog CRUD
     <a href="#new_entry_frame">New Post</a>
   </div>
 
-  <div id="show_entry_frame" class="uiframe hidden">
+  <div id="show" class="uiframe hidden">
     <h2> Show Post </h2>
     <p>
       <b>Title:</b>
@@ -122,6 +126,29 @@ Blog CRUD
     </p>
     <a href="#edit_entry_frame" >Edit Post</a> |
     <a href="#post_list_frame" >List Posts</a>
+    <script>
+       frame_load_methods['show']=function(path) {
+         id = path.substring(1);
+         var url = '/blog/show/'+id+'.json';
+         console.log("calling "+url);
+         $.ajax({
+           type: "GET",
+           url: url,
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+             console.log("Error:"+textStatus);
+             console.log(XMLHttpRequest);
+             console.log(errorThrown);
+             $('#debugResults').html(XMLHttpRequest.responseText);
+             alert('Error: '+textStatus);
+           },
+           success: function(data) {
+             $('#show_post_title').html(data[0].title);
+             $('#show_post_name').html(data[0].name);
+             $('#show_post_content').html(data[0].content);
+           }
+         });
+       };
+    </script>
   </div>
 
   <div id="new_entry_frame" class="uiframe hidden">
