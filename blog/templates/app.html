@@ -142,10 +142,15 @@ Blog CRUD
              alert('Error: '+textStatus);
            },
            success: function(data) {
-             $('#show_post_title').html(data[0].title);
-             $('#show_post_name').html(data[0].name);
-             $('#show_post_content').html(data[0].content);
-           }
+             console.log("show data returned "+data);
+             obj = data[0];
+             console.log(obj);
+             console.log(obj.pk);
+             $('#show_post_title').html(obj.fields.title);
+             $('#show_post_name').html(data[0].fields.name);
+             $('#show_post_content').html(data[0].fields.content);
+           },
+           dataType: 'json'
          });
        };
     </script>

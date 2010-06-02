@@ -4,16 +4,29 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
+import blog.models
 from blog.models import Post
 
 
 def apphtml(request):
     return render_to_response("app.html", {}, context_instance=RequestContext(request))
 
+
+def json_response(object):
+    """Takes the object, converts it to json, and returns a django http response
+    """
+
+    # TODO: Make a better way to serialize a single model object
+    if type(object) == blog.models.Post:
+        object = [object]
+
+    output = serializers.serialize("json", object)
+    return HttpResponse(output, 'text/plain')
+
+
 def list(request):
     queryset = Post.objects.all()
-    output = serializers.serialize("json", queryset)
-    return HttpResponse(output, 'text/plain')
+    return json_response(queryset)
 
 
 def delete(request,id):
@@ -23,6 +36,12 @@ def delete(request,id):
     obj = get_object_or_404(Post,pk=id)
     obj.delete()
     return HttpResponse("{'result':'Deleted'}", 'text/plain')
+
+
+def show(request,id):
+    obj = get_object_or_404(Post,pk=id)
+    return json_response(obj)
+    
 
 
 def create(request):
