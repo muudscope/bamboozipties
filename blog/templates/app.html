@@ -6,11 +6,26 @@ Blog CRUD
 
 {% block content %}
 
+<script>
+    var DEBUG_MODE = true;
+</script>
 
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/rsh.js"></script>
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
 
 <script>
+    function debug_error(XMLHttpRequest, textStatus, errorThrown) {
+        if( !DEBUG_MODE ) {
+            return;
+        }
+        // Generic method to be called from a failed AJAX 
+        console.log("Error:"+textStatus);
+        console.log(XMLHttpRequest);
+        console.log(errorThrown);
+        $('#debugResults').html(XMLHttpRequest.responseText);
+        alert('Error: '+textStatus);
+    }
+
     function delete_entry(id) {
       if( confirm("Delete Post?") ) {
         // They said yes
@@ -20,13 +35,7 @@ Blog CRUD
         $.ajax({
           type: "POST",
           url: url,
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log("Error:"+textStatus);
-            console.log(XMLHttpRequest);
-            console.log(errorThrown);
-            $('#debugResults').html(XMLHttpRequest.responseText);
-            alert('Error: '+textStatus);
-          },
+          error: debug_error,
           success: function(data) {
             $("#post-id"+id).remove();
           }
@@ -144,13 +153,7 @@ Blog CRUD
          $.ajax({
            type: "GET",
            url: url,
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-             console.log("Error:"+textStatus);
-             console.log(XMLHttpRequest);
-             console.log(errorThrown);
-             $('#debugResults').html(XMLHttpRequest.responseText);
-             alert('Error: '+textStatus);
-           },
+           error: debug_error,
            success: function(data) {
              console.log("show data returned "+data);
              obj = data[0];
@@ -191,13 +194,7 @@ Blog CRUD
           type: "POST",
           url: $(this).attr('action'), 
           data: $(this).serialize(), 
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log("Error:"+textStatus);
-            console.log(XMLHttpRequest);
-            console.log(errorThrown);
-            $('#debugResults').html(XMLHttpRequest.responseText);
-            alert('Error posting form: '+textStatus);
-          },
+          error: debug_error,
           success: function(jsonData) {
             console.log(jsonData);
             alert('New post created');
