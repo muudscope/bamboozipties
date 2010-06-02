@@ -37,11 +37,19 @@ Blog CRUD
 
     $(document).ready( load_table() 
     );
+
+    function intrapage_navigate(frame) {
+      //TODO: Get the name of the frame we're heading to by looking at the 
+      // object that triggered the event, and pulling its href.
+      // instead of passing in frame as a function parameter
+      jQuery('.uiframe').addClass('hidden');
+      jQuery('#'+frame).removeClass('hidden');
+    }
 </script>
 
-    <h1>Blog Posts</h1>
 
   <div id="post_list_frame" class="uiframe">
+    <h2>All Blog Posts</h2>
     <table border=2 id="post_list_table">
     <tr>
       <th>Title</th>
@@ -51,10 +59,11 @@ Blog CRUD
     </tr>
 
     </table>
-    <a href="#new_entry_frame" onclick="intrapage_navigate()">New Post</a>
+    <a href="#new_entry_frame" onclick="intrapage_navigate('new_entry_frame')">New Post</a>
   </div>
 
   <div id="show_entry_frame" class="uiframe hidden">
+    <h2> Show Post </h2>
     <p>
       <b>Title:</b>
       <span id="show_post_title"></span>
@@ -67,11 +76,12 @@ Blog CRUD
       <b>Content:</b>
       <span id="show_post_content"></span>
     </p>
-    <a href="#edit_entry_frame" onclick="intrapage_navigate()">Edit Post</a> |
-    <a href="#post_list_frame" onclick="intrapage_navigate()">Back</a>
+    <a href="#edit_entry_frame" onclick="intrapage_navigate('edit_entry_frame')">Edit Post</a> |
+    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">Back</a>
   </div>
 
   <div id="new_entry_frame" class="uiframe hidden">
+    <h2> New Post </h2>
     <form name="new_post">
         <p>
           <label>Title:</label><br/>
@@ -90,8 +100,8 @@ Blog CRUD
         <input id="post_submit" name="commit" type="submit" value="Create" /> 
     </form>
 
-    <a href="#edit_entry_frame" onclick="intrapage_navigate()">Edit Post</a> |
-    <a href="#post_list_frame" onclick="intrapage_navigate()">Back</a>
+    <a href="#edit_entry_frame" onclick="intrapage_navigate('edit_entry_frame')">Edit Post</a> |
+    <a href="#post_list_frame" onclick="intrapage_navigate('post_list_frame')">Back</a>
   </div>
 
 
