@@ -145,7 +145,7 @@ Blog CRUD
       <b>Content:</b>
       <span id="show_post_content"></span>
     </p>
-    <a href="#edit/1" >Edit Post</a> |
+    <a id="edit_link" href="#edit/" >Edit Post</a> |
     <a href="#list" >List Posts</a>
     <script>
        frame_load_methods['show']=function(path) {
@@ -162,6 +162,7 @@ Blog CRUD
              $('#show_post_title').html(obj.fields.title);
              $('#show_post_name').html(obj.fields.name);
              $('#show_post_content').html(obj.fields.content);
+             $('#edit_link').attr('href','#edit/' + obj.pk);
            },
            dataType: 'json'
          });
