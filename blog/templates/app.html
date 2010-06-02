@@ -14,16 +14,17 @@ Blog CRUD
 <script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
 
 <script>
+
+    // Generic method to be called from a failed AJAX 
     function debug_error(XMLHttpRequest, textStatus, errorThrown) {
-        if( !DEBUG_MODE ) {
-            return;
+        alert('Server error: '+textStatus);
+
+        if( DEBUG_MODE ) {
+            console.log("Error:"+textStatus);
+            console.log(XMLHttpRequest);
+            console.log(errorThrown);
+            $('#debugResults').html(XMLHttpRequest.responseText);
         }
-        // Generic method to be called from a failed AJAX 
-        console.log("Error:"+textStatus);
-        console.log(XMLHttpRequest);
-        console.log(errorThrown);
-        $('#debugResults').html(XMLHttpRequest.responseText);
-        alert('Error: '+textStatus);
     }
 
     function delete_entry(id) {
