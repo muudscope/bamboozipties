@@ -23,6 +23,8 @@
         error: debug_error,
         success: function(data) {
             $.each(data, function(n, row) {
+              // TODO: build this through the DOM
+              // TODO: properly HTML-encode the user data
               $("#list_tbody").append(
                 '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
                   +row.fields.name+'</td><td>'
