@@ -1,0 +1,46 @@
+<div id="frame_list" class="uiframe">
+  <h2>All Blog Posts</h2>
+  <table border=2 id="post_list_table">
+  <tr>
+    <th>Title</th>
+    <th>Name</th>
+    <th>Content</th>
+    <td></td>
+  </tr>
+  <tbody id="list_tbody">
+  </tbody>
+
+  </table>
+  <a href="#new">New Post</a>
+<script>
+  // loads the list of all Post objects for display in the list frame.
+  function load_table(post_load) {
+      $('#list_tbody').html('');
+      $.ajax({
+        type: "GET",
+        url: '/blog/list.json',
+        dataType: 'json',
+        error: debug_error,
+        success: function(data) {
+            $.each(data, function(n, row) {
+              $("#list_tbody").append(
+                '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
+                  +row.fields.name+'</td><td>'
+                  +row.fields.content+'</td><td>'
+                  +'<a href="#show/'+row.pk+'" >Show</a> | '
+                  +'<a href="#edit/'+row.pk+'" >Edit</a> | '
+                  +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
+                  +'</td></tr>');
+            });
+            post_load();
+        }
+      });
+  }
+
+  frame_load_methods['list']=function(path, post_load) {
+    load_table(post_load);
+  };
+</script>
+</div>
+
+

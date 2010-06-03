@@ -1,0 +1,38 @@
+<div id="frame_new" class="uiframe hidden">
+  <h2> New Post </h2>
+  <form name="new_post" action="create.json" method="POST">
+      <p>
+        <label>Title:</label><br/>
+        <input id="post_title" name="post.title" size="30" type="text" /> 
+      </p>
+      <p>
+        <label>Name:</label><br/>
+        <span id="show_post_name"></span>
+        <input id="post_name" name="post.name" size="30" type="text" /> 
+      </p>
+      <p>
+        <label>Content:</label><br/>
+        <textarea cols="40" id="post_content" name="post.content" rows="20"></textarea> 
+      </p>
+
+      <input id="new_post_submit" name="commit" type="submit" value="Create" /> 
+  </form>
+  <script>
+    $('form[name=new_post]').submit(function(){ 
+      $.ajax({
+        type: "POST",
+        url: $(this).attr('action'), 
+        data: $(this).serialize(), 
+        error: debug_error,
+        success: function(jsonData) {
+          intrapage_navigate('show/'+jsonData[0].pk);
+        }, 
+        dataType: 'json'
+      });
+      return false;  // prevents the browser from posting the form itself.
+    });
+  </script>
+  <a href="#list" >List Posts</a>
+</div>
+
+
