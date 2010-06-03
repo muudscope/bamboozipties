@@ -7,26 +7,16 @@ from django.shortcuts import get_object_or_404
 import blog.models
 from blog.models import Post
 
+import bzt_utils
+
 
 def apphtml(request):
     return render_to_response("app.html", {}, context_instance=RequestContext(request))
 
 
-def json_response(object):
-    """Takes the object, converts it to json, and returns a django http response
-    """
-
-    # TODO: Make a better way to serialize a single model object
-    if type(object) == blog.models.Post:
-        object = [object]
-
-    output = serializers.serialize("json", object)
-    return HttpResponse(output, 'text/plain')
-
-
 def list(request):
     queryset = Post.objects.all()
-    return json_response(queryset)
+    return bzt_utils.json_response(queryset)
 
 
 def delete(request,id):
@@ -40,7 +30,7 @@ def delete(request,id):
 
 def show(request,id):
     obj = get_object_or_404(Post,pk=id)
-    return json_response(obj)
+    return bzt_utils.json_response(obj)
     
 
 

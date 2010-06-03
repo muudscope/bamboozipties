@@ -1,0 +1,92 @@
+    <style type="text/css">
+    .uiframe {
+        margin: 10px;
+        padding: 15px;
+        border-width: 2px;
+        border-color: black;
+        border-style: solid;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/rsh.js"></script>
+<script type="text/javascript" src="http://reallysimplehistory.googlecode.com/svn/trunk/json2007.js"></script>
+
+<script>
+
+    // Generic method to be called from a failed AJAX 
+    function debug_error(XMLHttpRequest, textStatus, errorThrown) {
+        alert('Sorry! A server error occurred: '+textStatus);
+
+        if( DEBUG_MODE ) {
+            console.log("Error:"+textStatus);
+            console.log(XMLHttpRequest);
+            console.log(errorThrown);
+            $('#debugResults').html(XMLHttpRequest.responseText);
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    //
+    // initialize RSH (really simple history) for navigation
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    window.dhtmlHistory.create();
+
+    function intrapage_navigate(newLocation) {
+        // Called from other code. Convenience method.
+        window.location.hash = newLocation;
+    }
+
+    var frame_load_methods={};
+
+    var navigationListener = function(newLocation, historyData) {
+        var pathdata;
+        var slashIndex = newLocation.indexOf('/');
+        var framename = newLocation;
+        if( slashIndex >= 0 ) {
+          // take substring.
+          pathdata = newLocation.substring(slashIndex);
+          framename = newLocation.substring(0,slashIndex);
+        }
+
+        // First hide others
+        jQuery('.uiframe').addClass('hidden');
+        // Prepare to show, when the loading is done.
+        var show_frame = function(){
+          jQuery('#frame_'+framename).removeClass('hidden');
+        }
+
+        // Look to see if there's a method registered for this frame.
+        // If so, call it.
+        if( frame_load_methods[framename] ) {
+            console.log("calling frame_load_method for "+framename+" with "+pathdata);
+            frame_load_methods[framename](pathdata, show_frame);
+        } else {
+            // If there's no frameload method, then we show the frame ourselves.
+            // If there is one, it's responsible for showing the frame when it's done
+            // loading its data.
+            show_frame();
+        }
+
+    };
+
+    window.onload = function() {
+        dhtmlHistory.initialize();
+        dhtmlHistory.addListener(navigationListener);
+
+        if( window.location.hash ) {
+            navigationListener(window.location.hash.substring(1), null);
+        } else {
+            intrapage_navigate(HOMEPAGE_FRAGMENT);
+        }
+    };
+</script>
+
