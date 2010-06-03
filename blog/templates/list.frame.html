@@ -23,16 +23,29 @@
         error: debug_error,
         success: function(data) {
             $.each(data, function(n, row) {
-              // TODO: build this through the DOM
-              // TODO: properly HTML-encode the user data
-              $("#list_tbody").append(
-                '<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
-                  +row.fields.name+'</td><td>'
-                  +row.fields.content+'</td><td>'
-                  +'<a href="#show/'+row.pk+'" >Show</a> | '
-                  +'<a href="#edit/'+row.pk+'" >Edit</a> | '
-                  +'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
-                  +'</td></tr>');
+              var TR = $('<tr>').attr('id','post-id'+row.pk)
+              TR.append($('<td>').text(row.fields.title) );
+              TR.append($('<td>').text(row.fields.name) );
+              TR.append($('<td>').text(row.fields.content) );
+              controlTD = $('<td>')
+              controlTD.append($('<a>').attr('href','#show/'+row.pk).text('Show') ).append(' | ');
+              controlTD.append($('<a>').attr('href','#edit/'+row.pk).text('Edit') ).append(' | ');
+              controlTD.append($('<a>').attr('href','#')
+                                       .click( function() { return delete_entry(row.pk);} )
+                                       .text('Delete')
+                              );
+              TR.append(controlTD);
+                   
+                
+                //'<tr id="post-id'+row.pk+'"><td>'+row.fields.title+'</td><td>'
+                  //+row.fields.name+'</td><td>'
+                  //+row.fields.content+'</td><td>'
+                  //+'<a href="#show/'+row.pk+'" >Show</a> | '
+                  //+'<a href="#edit/'+row.pk+'" >Edit</a> | '
+                  //+'<a href="#" onclick="return delete_entry('+row.pk+');">Delete</a>'
+                  //+'</td></tr>');
+              $("#list_tbody").append(TR);
+
             });
             post_load();
         }
