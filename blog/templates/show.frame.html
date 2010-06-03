@@ -24,9 +24,9 @@
          error: debug_error,
          success: function(data) {
            obj = data[0];
-           $('#show_post_title').html(obj.fields.title);
-           $('#show_post_name').html(obj.fields.name);
-           $('#show_post_content').html(obj.fields.content);
+           $('#show_post_title').text(obj.fields.title);
+           $('#show_post_name').text(obj.fields.name);
+           $('#show_post_content').text(obj.fields.content);
            $('#edit_link').attr('href','#edit/' + obj.pk);
 
            post_load();
