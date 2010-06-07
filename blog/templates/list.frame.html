@@ -25,7 +25,7 @@
             $.each(data, function(n, row) {
               //Note that we're not protecting ourselves against javascript in the .pk field
               //We trust the backend to only put numbers there.
-              var TR = $('<tr>').attr('id','post-id'+row.pk)
+              var TR = $('<tr>').attr('id','post-id'+row.pk);
               TR.append($('<td>').text(row.fields.title) );
               TR.append($('<td>').text(row.fields.name) );
               TR.append($('<td>').text(row.fields.content) );
