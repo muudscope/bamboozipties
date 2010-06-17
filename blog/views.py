@@ -16,6 +16,7 @@ def apphtml(request):
 
 def list(request):
     queryset = Post.objects.all()
+    #TODO: denormalize this method out.  THere's not enough code to justify the sharing
     return bzt_utils.json_response(queryset)
 
 
@@ -30,6 +31,7 @@ def delete(request,id):
 
 def show(request,id):
     obj = get_object_or_404(Post,pk=id)
+    #TODO: denormalize this method out.  THere's not enough code to justify the sharing
     return bzt_utils.json_response(obj)
     
 
