@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 import blog.models
 from blog.models import Post
 
-import bzt_utils
+import bzt.bzt_utils as bzt_utils
 
 
 def apphtml(request):

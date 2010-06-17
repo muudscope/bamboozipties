@@ -17,6 +17,8 @@ def json_response(object):
     return HttpResponse(output, 'text/plain')
 
 
+# Note: this class has to exist in an 'app' in django -- if it's in your project's root dir,
+# you'll get IndexError: list index out of range when trying to load django.
 class SerializableModel(models.Model):
     """A base class for Django models that provides an easy way to serialize to JSON
     including extra information
