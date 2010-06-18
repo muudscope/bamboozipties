@@ -1,4 +1,4 @@
-Bamboo-zipties is a scaffolding system for Django.
+Bamboo-zipties (#bzt) is a scaffolding system for Django.
 
 It sets up a UI with basic CRUD operations for your objects, similar to what ruby on rails'
 scaffolding system.  One big difference though.
@@ -14,3 +14,5 @@ This provides a clean line of encapsulation between the view/client and the busi
 through JSON, and (will) has unit tests.
 
 The project is named after a common system of construction scaffolding in SE Asia.  It is remarkably effective for how simple it is.
+
+Questions? Comments? Ask @leopd on twitter.
