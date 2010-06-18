@@ -26,10 +26,10 @@
         alert('Sorry! A server error occurred: '+textStatus);
 
         if( DEBUG_MODE ) {
+            $('#debugResults').html(XMLHttpRequest.responseText);
             console.log("Error:"+textStatus);
             console.log(XMLHttpRequest);
             console.log(errorThrown);
-            $('#debugResults').html(XMLHttpRequest.responseText);
         }
     }
 
@@ -67,7 +67,7 @@
         // Look to see if there's a method registered for this frame.
         // If so, call it.
         if( frame_load_methods[framename] ) {
-            console.log("calling frame_load_method for "+framename+" with "+pathdata);
+            //console.log("calling frame_load_method for "+framename+" with "+pathdata);
             frame_load_methods[framename](pathdata, show_frame);
         } else {
             // If there's no frameload method, then we show the frame ourselves.
